@@ -12,7 +12,7 @@ pub fn derive_partial(input: proc_macro::TokenStream) -> proc_macro::TokenStream
         ..
     } = syn::parse(input).unwrap();
 
-    let variant_ident = Ident::new(&format!("{}Variants", ident), Span::call_site());
+    let variant_ident = Ident::new(&format!("{}Variant", ident), Span::call_site());
 
     let variant_derives = attrs
         .iter()
