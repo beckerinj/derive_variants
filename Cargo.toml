@@ -1,11 +1,13 @@
 [package]
 name = "derive_variants"
+description = "derives an additional enum from a nested enum that contains only variants and no nested fields"
+documentation = "https://docs.rs/derive_variants"
 version = "0.1.0"
 authors = ["mbecker20 <becker.maxh@gmail.com>"]
 categories = ["rust-patterns"]
 edition = "2021"
 license = "MIT"
-repository = "https://github.com/mbecker20/partial_derive2"
+repository = "https://github.com/mbecker20/derive_variants"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
