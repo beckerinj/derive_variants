@@ -1,6 +1,6 @@
 [package]
 name = "derive_variants"
-version = "0.1.4"
+version = "0.1.0"
 authors = ["mbecker20 <becker.maxh@gmail.com>"]
 categories = ["rust-patterns"]
 edition = "2021"
