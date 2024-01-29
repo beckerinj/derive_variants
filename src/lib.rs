@@ -41,16 +41,22 @@ pub fn derive_partial(input: proc_macro::TokenStream) -> proc_macro::TokenStream
 
     let variant_variants = variants.iter().map(|v| v.ident.clone());
 
-    let variant_from_full = variants
-        .iter()
-        .map(|Variant { ident, fields, .. }| match &fields {
-            Fields::Named(_) => quote!(#ident { .. }),
-            Fields::Unnamed(_) => {
-                let underscores = fields.iter().map(|_| quote!(_));
-                quote!(#ident (#(#underscores),*))
+    let variant_from_full = variants.iter().map(
+        |Variant {
+             ident: v_ident,
+             fields,
+             ..
+         }| {
+            match &fields {
+                Fields::Named(_) => quote!(#ident::#v_ident { .. } => #variant_ident::#v_ident),
+                Fields::Unnamed(_) => {
+                    let underscores = fields.iter().map(|_| quote!(_));
+                    quote!(#ident::#v_ident(#(#underscores),*) => #variant_ident::#v_ident)
+                }
+                Fields::Unit => quote!(#ident::#v_ident => #variant_ident::#v_ident),
             }
-            Fields::Unit => quote!(#ident),
-        });
+        },
+    );
 
     quote! {
         #[derive(#variant_derives)]

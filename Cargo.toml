@@ -2,7 +2,7 @@
 name = "derive_variants"
 description = "derives an additional enum from a nested enum that contains only variants and no nested fields"
 documentation = "https://docs.rs/derive_variants"
-version = "0.1.2"
+version = "0.1.3"
 authors = ["mbecker20 <becker.maxh@gmail.com>"]
 categories = ["rust-patterns"]
 edition = "2021"
