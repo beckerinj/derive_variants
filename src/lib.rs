@@ -1,6 +1,6 @@
 use proc_macro2::{Ident, Span};
 use quote::quote;
-use syn::{Data, DeriveInput};
+use syn::{Data, DeriveInput, Fields, Variant};
 
 #[proc_macro_derive(EnumVariants, attributes(variant_derive, variant_attr))]
 pub fn derive_partial(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
@@ -30,21 +30,41 @@ pub fn derive_partial(input: proc_macro::TokenStream) -> proc_macro::TokenStream
         .iter()
         .filter(|attr| attr.path().is_ident("variant_attr"))
         .map(|attr| {
-            attr
-                .parse_args::<proc_macro2::TokenStream>()
+            attr.parse_args::<proc_macro2::TokenStream>()
                 .expect("failed to parse variant_attr args")
         });
 
     let variants = match data {
-        Data::Enum(e) => e.variants.into_iter().map(|v| v.ident),
+        Data::Enum(e) => e.variants,
         _ => panic!(""),
     };
 
+    let variant_variants = variants.iter().map(|v| v.ident.clone());
+
+    let variant_from_full = variants
+        .iter()
+        .map(|Variant { ident, fields, .. }| match &fields {
+            Fields::Named(_) => quote!(#ident { .. }),
+            Fields::Unnamed(_) => {
+                let underscores = fields.iter().map(|_| quote!(_));
+                quote!(#ident (#(#underscores),*))
+            }
+            Fields::Unit => quote!(#ident),
+        });
+
     quote! {
         #[derive(#variant_derives)]
-		#(#variant_attrs)*
+        #(#variant_attrs)*
         #vis enum #variant_ident {
-            #(#variants),*
+            #(#variant_variants),*
+        }
+
+        impl From<&#ident> for #variant_ident {
+            fn from(value: &#ident) -> #variant_ident {
+                match value {
+                    #(#variant_from_full),*
+                }
+            }
         }
     }
     .into()

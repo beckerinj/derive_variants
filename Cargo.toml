@@ -2,7 +2,7 @@
 name = "derive_variants"
 description = "derives an additional enum from a nested enum that contains only variants and no nested fields"
 documentation = "https://docs.rs/derive_variants"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["mbecker20 <becker.maxh@gmail.com>"]
 categories = ["rust-patterns"]
 edition = "2021"
@@ -15,7 +15,7 @@ repository = "https://github.com/mbecker20/derive_variants"
 proc-macro = true
 
 [dependencies]
-proc-macro2 = "1.0"
-quote = "1.0"
-syn = "2.0"
+proc-macro2 = "1.0.78"
+quote = "1.0.35"
+syn = "2.0.48"
 
