@@ -1,21 +1,32 @@
-[package]
-name = "derive_variants"
+[workspace]
+members = ["derive", "example"]
+
+[workspace.package]
+version = "1.0.0"
 description = "derives an additional enum from a nested enum that contains only variants and no nested fields"
-documentation = "https://docs.rs/derive_variants"
-version = "0.1.3"
+repository = "https://github.com/mbecker20/derive_variants"
 authors = ["mbecker20 <becker.maxh@gmail.com>"]
 categories = ["rust-patterns"]
 edition = "2021"
 license = "MIT"
-repository = "https://github.com/mbecker20/derive_variants"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[package]
+name = "derive_variants"
+documentation = "https://docs.rs/derive_variants"
+description.workspace = true
+authors.workspace = true
+categories.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
 
-[lib]
-proc-macro = true
+[patch.crates-io]
+derive_variants_derive = { path = "derive" }
 
 [dependencies]
-proc-macro2 = "1.0.78"
-quote = "1.0.35"
-syn = "2.0.48"
+derive_variants_derive = "1.0.0"
+#
+thiserror = "1.0.61"
+
 
